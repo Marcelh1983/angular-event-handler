@@ -1,6 +1,6 @@
 {
     "name": "ngx-event-handler",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Easy way to handle page clicks, outside or inside specific elements.",
     "main": "./package/index.js",
     "ngPackage": {
@@ -20,7 +20,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Marcelh1983/angular-customer-events.git"
+        "url": "git+https://github.com/Marcelh1983/angular-event-handler.git"
     },
     "keywords": [
         "Angular",
@@ -32,9 +32,9 @@
     "author": "Marcel Hoekstra",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Marcelh1983/angular-customer-events/issues"
+        "url": "https://github.com/Marcelh1983/angular-event-handler/issues"
     },
-    "homepage": "https://github.com/Marcelh1983/angular-customer-events",
+    "homepage": "https://github.com/Marcelh1983/angular-event-handler",
     "devDependencies": {
         "@angular-devkit/build-angular": "~0.901.8",
         "@angular/animations": "~9.1.11",
