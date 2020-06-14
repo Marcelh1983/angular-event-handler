@@ -79,16 +79,17 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
             }
             this.subscriptionHandler = createObservableHandler(this.renderer, this.target, this.event, this.delay).subscribe((e) => {
                 // keep InclusionsListInside directive;
+                const path = this.getElementPath(e);
                 if (!this.keepInclusionListInsideDirective ||
                     !this.checkInclude ||
-                    !!(e['path'] as HTMLElement[]).find(e => e === this.el?.nativeElement)) {
+                    !!path.find(e => e === this.el?.nativeElement)) {
                     // if no included elements are provided, every element is included
                     // otherwise check if the element or one of the parents matches the inclusion list
                     let isIncluded = !this.checkInclude;
                     let isExcluded = false;
                     //TODO: included elements inside directive only by default;
                     if (this.checkInclude) {
-                        for (let [index, elementToCheck] of (e['path'] as HTMLElement[]).entries()) {
+                        for (let [index, elementToCheck] of path.entries()) {
                             if (index > this.maxLevelup) {
                                 break;
                             }
@@ -101,8 +102,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                     if (isIncluded) {
                         // if the target is in the inclusionlist, of there is no inclusion list, check if the target
                         // or the target parent matches a exclusion.
-
-                        for (let [index, elementToCheck] of (e['path'] as HTMLElement[]).entries()) {
+                        for (let [index, elementToCheck] of path.entries()) {
                             if (index > this.maxLevelup) {
                                 break;
                             }
@@ -121,6 +121,23 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
         }
     }
 
+
+    private getElementPath(event: Event) {
+        const path = event['path'];
+        if (path) {
+            return path;
+        } else {
+            let composedPath: Array<HTMLElement> = [];
+            let index = 0;
+            let el = event.target as HTMLElement;
+            while (index < this.maxLevelup && !!el) {
+                composedPath.push(el);
+                el = el.parentNode as HTMLElement;
+                index++;
+            }
+            return composedPath;
+        }
+    }
 
 
     private matchesElement(element: HTMLElement, check: 'include' | 'exclude') {
