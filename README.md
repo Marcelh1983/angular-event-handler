@@ -54,7 +54,7 @@ Input:
 
 
 Output:
-- loaded: google only, notifies when iframe is loaded. Can be used to show progress while loading 
+- handleEvent: EventEmitter<HTMLElement>: fires when an element that matches the provided inclusion/exclusion list. By default; if nothing not inputs are provided on the directive, every click will trigger this event.
 
 
 The function used to create an observable on page events can always be used without the directive.
