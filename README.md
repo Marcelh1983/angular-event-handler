@@ -11,6 +11,9 @@ This makes it easy to define: don't trigger my 'clickoutside' event when clickin
 
 See the demo project for examples.
 
+<a href="https://stackblitz.com/edit/ngx-event-handler">Stackblitz</a>
+
+
 <a href="https://github.com/Marcelh1983/angular-event-handler/blob/master/changelog.md">Changes</a>
 
 ### Install the NPM Module

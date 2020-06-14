@@ -1,6 +1,6 @@
 {
     "name": "ngx-event-handler",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Easy way to handle page clicks, outside or inside specific elements.",
     "main": "./package/index.js",
     "ngPackage": {
@@ -24,7 +24,10 @@
     },
     "keywords": [
         "Angular",
-        "Word"
+        "click outside",
+        "handle events",
+        "events",
+        "page clicks"
     ],
     "author": "Marcel Hoekstra",
     "license": "MIT",
