@@ -1,0 +1,32 @@
+<div class="container">
+    <div id="example-exclusion" class="card p-3 m-2" handle-event (handleEvent)="deselect()"
+        [exclusion]="['#buttons', '#text-control']">
+        <h2>Exclusion/ click outside elements</h2>
+        <div id="buttons" class="d-flex">
+            <button [disabled]="!selectedWord" (click)="toggleClass(selectedWord, 'bold')"
+                class="btn mdi mdi-24px mdi-format-bold" [class.mdi-btn-primary]="boldApplied"
+                [class.mdi-btn-outline-primary]="!boldApplied"></button>
+            <button [disabled]="!selectedWord" (click)="toggleClass(selectedWord, 'underline')"
+                class="btn mdi mdi-24px mdi-format-underline" [class.mdi-btn-primary]="boldApplied"
+                [class.mdi-btn-outline-primary]="!boldApplied"></button>
+        </div>
+        <p id="text-control" style="cursor: pointer;user-select: none;" class="form-control h-100">
+            <ng-container *ngFor="let word of words; trackBy:trackById">
+                <span class="span-word" (click)="selectWord(word)" [ngClass]="word.classes"
+                    [class.selected]="word.selected">{{ word.text }}</span>
+                <span>&ngsp;</span>
+            </ng-container>
+        </p>
+    </div>
+    <div id="example-inclusion" class="card p-3 m-2" handle-event (handleEvent)="handleSpanClick($event)"
+        [inclusion]="['.span-word']">
+        <h2>Include; handle multiple click events at once</h2>
+        <p id="text-control" style="cursor: pointer;user-select: none;" class="form-control h-100">
+        <ng-container *ngFor="let word of inclusionWords; trackBy:trackById">
+            <span class="span-word">{{ word.text }}</span>
+            <span>&ngsp;</span>
+        </ng-container>
+        </p>
+        <div>Selected text: {{ selectedText }}</div>
+    </div>
+</div>
