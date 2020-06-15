@@ -32,10 +32,10 @@ npm install ngx-event-handler --save
   export class AppModule { }
 ```
 
-#### 2. Add the handle-event directive to a htmlElement:
+#### 2. Add handleEvent to a htmlElement:
 
 ```html
-    <div handle-event (handleEvent)="deselect()" [exclusion]="['#buttons', '#text-control']">
+    <div (handleEvent)="deselect()" [exclusion]="['#buttons', '#text-control']">
 ``` 
 
 #### API:
