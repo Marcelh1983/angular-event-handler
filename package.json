@@ -48,7 +48,6 @@
         "@angular/platform-browser": "~9.1.11",
         "@angular/platform-browser-dynamic": "~9.1.11",
         "@angular/router": "~9.1.11",
-        "@mdi/font": "5.3.45",
         "@types/node": "~13.9.1",
         "codelyzer": "~5.2.2",
         "bootstrap": "4.5.0",
