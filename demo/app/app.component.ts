@@ -11,7 +11,19 @@ export class Word {
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  styles: [`
+  .selected {
+    background-color: lightpink;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.bold {
+    font-weight: bold;
+}
+`]
 })
 export class AppComponent {
   linkClickedText = '';
@@ -47,7 +59,7 @@ export class AppComponent {
           and
           <a href="/link2">Link 2</a>
       </div>`
-    .replace(/href=/gi, ` onclick='return false;' href=`));
+        .replace(/href=/gi, ` onclick='return false;' href=`));
   }
   trackById(index: number, word: Word) {
     return word.id;
@@ -92,7 +104,7 @@ export class AppComponent {
     });
   }
 
-  linkClicked(element : HTMLElement) {
+  linkClicked(element: HTMLElement) {
     const anchor = element as HTMLAnchorElement;
     const relativeUrl = anchor.href.replace(window.location.origin, '');
     console.log('nav to: ', relativeUrl);

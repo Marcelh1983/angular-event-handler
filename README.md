@@ -9,7 +9,10 @@ handle all clicks where id is not 'toolbar' and also class is not .selection.
 The matching occurs by checking the target element and it's parents.
 This makes it easy to define: don't trigger my 'clickoutside' event when clicking the div with id: 'toolbar' and also don't trigger when any of the child elements of the toolbar is clicked.
 
-See the demo project for examples.
+See the demo project for examples:
+- click outside
+- bind multiple event at once
+- bind events to html injected in the innerHTML 
 
 <a href="https://stackblitz.com/edit/ngx-event-handler">Stackblitz</a>
 
