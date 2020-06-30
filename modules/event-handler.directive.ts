@@ -51,6 +51,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
     @Input() keepInclusionListInsideDirective = true;
     @Input() maxLevelup = 20;
     @Input() delay = 0;
+    @Input() preventDefault = false;
 
     @Input() target = 'window';
     @Input() event = 'click';
@@ -70,10 +71,10 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
     constructor(private renderer: Renderer2, private el: ElementRef) { }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (!this.attachedEvent || (changes.maxLevelup && changes.maxLevelup.previousValue != changes.maxLevelup.currentValue) ||
-            (changes.target && changes.target.previousValue != changes.target.currentValue) ||
-            (changes.event && changes.event.previousValue != changes.event.currentValue) ||
-            (changes.delay && changes.delay.previousValue != changes.delay.currentValue)) {
+        if (!this.attachedEvent || (changes.maxLevelup && changes.maxLevelup.previousValue !== changes.maxLevelup.currentValue) ||
+            (changes.target && changes.target.previousValue !== changes.target.currentValue) ||
+            (changes.event && changes.event.previousValue !== changes.event.currentValue) ||
+            (changes.delay && changes.delay.previousValue !== changes.delay.currentValue)) {
             if (this.subscriptionHandler) {
                 this.subscriptionHandler.unsubscribe();
             }
@@ -87,9 +88,8 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                     // otherwise check if the element or one of the parents matches the inclusion list
                     let isIncluded = !this.checkInclude;
                     let isExcluded = false;
-                    //TODO: included elements inside directive only by default;
                     if (this.checkInclude) {
-                        for (let [index, elementToCheck] of path.entries()) {
+                        for (const [index, elementToCheck] of path.entries()) {
                             if (index > this.maxLevelup) {
                                 break;
                             }
@@ -102,7 +102,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                     if (isIncluded) {
                         // if the target is in the inclusionlist, of there is no inclusion list, check if the target
                         // or the target parent matches a exclusion.
-                        for (let [index, elementToCheck] of path.entries()) {
+                        for (const [index, elementToCheck] of path.entries()) {
                             if (index > this.maxLevelup) {
                                 break;
                             }
@@ -113,6 +113,9 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                         }
                     }
                     if (isIncluded && !isExcluded) {
+                        if (this.preventDefault) {
+                            e.preventDefault();
+                        }
                         this.handleEvent.emit((e as Event).target as HTMLElement);
                     }
                 }
@@ -123,11 +126,11 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
 
 
     private getElementPath(event: Event) {
-        const path = event['path'];
+        const path = (event as any).path;
         if (path) {
             return path;
         } else {
-            let composedPath: Array<HTMLElement> = [];
+            const composedPath: Array<HTMLElement> = [];
             let index = 0;
             let el = event.target as HTMLElement;
             while (index < this.maxLevelup && !!el) {
@@ -147,17 +150,17 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
 
         if (elements?.includes(element.tagName?.toLowerCase())) {
             return true;
-        };
-        for (let className of classes) {
+        }
+        for (const className of classes) {
             if (element.classList?.contains(className)) {
                 return true;
             }
-        };
-        for (let id of ids) {
+        }
+        for (const id of ids) {
             if (element.id === id) {
                 return true;
             }
-        };
+        }
     }
 
     ngOnDestroy() {
