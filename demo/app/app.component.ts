@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
 export class Word {
   id: number;
@@ -13,6 +14,8 @@ export class Word {
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  linkClickedText = '';
+  html: SafeHtml;
   boldApplied = false;
   underlineApplied = false;
   selectedWord: Word = null;
@@ -34,7 +37,18 @@ export class AppComponent {
       classes: ''
     }));
 
-
+  constructor(sanitizer: DomSanitizer) {
+    this.html = sanitizer.bypassSecurityTrustHtml(
+      `<div>
+        Here two links added using the innerHTML.
+        Link click can be handled using this package.
+        Click the links to preview:
+          <a href="/link1">Link 1</a>
+          and
+          <a href="/link2">Link 2</a>
+      </div>`
+    .replace(/href=/gi, ` onclick='return false;' href=`));
+  }
   trackById(index: number, word: Word) {
     return word.id;
   }
@@ -76,5 +90,12 @@ export class AppComponent {
       }
       return w;
     });
+  }
+
+  linkClicked(element : HTMLElement) {
+    const anchor = element as HTMLAnchorElement;
+    const relativeUrl = anchor.href.replace(window.location.origin, '');
+    console.log('nav to: ', relativeUrl);
+    this.linkClickedText = `clicked: ${relativeUrl}, so we could use:  this.router.navigate([relativeUrl])`;
   }
 }

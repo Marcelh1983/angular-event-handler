@@ -26,7 +26,6 @@ export function createObservableHandler(renderer: Renderer2, target = 'window', 
 })
 export class EventHandlerDirective implements OnDestroy, OnChanges {
     @Input() set exclusion(value: string[]) {
-        this.checkExclude = value?.length > 0;
         this.excludedClasses = value
             .filter(e => e.startsWith('.'))
             .map(e => e.substring(1, e.length));
@@ -52,8 +51,6 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
     @Input() keepInclusionListInsideDirective = true;
     @Input() maxLevelup = 20;
     @Input() delay = 0;
-    @Input() preventDefault = false;
-
     @Input() target = 'window';
     @Input() event = 'click';
     @Output() handleEvent = new EventEmitter<HTMLElement>();
@@ -65,7 +62,6 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
     private includedIds = [];
     private includedElements = [];
     private checkInclude = false;
-    private checkExclude = false;
     private subscriptionHandler: Subscription;
     private attachedEvent = false;
 
@@ -80,7 +76,6 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                 this.subscriptionHandler.unsubscribe();
             }
             this.subscriptionHandler = createObservableHandler(this.renderer, this.target, this.event, this.delay).subscribe((e) => {
-                // keep InclusionsListInside directive;
                 const path = this.getElementPath(e);
                 let target = (e as Event).target as HTMLElement;
                 if (!this.keepInclusionListInsideDirective ||
@@ -116,9 +111,6 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                         }
                     }
                     if (isIncluded && !isExcluded) {
-                        if (this.preventDefault) {
-                            e.preventDefault();
-                        }
                         this.handleEvent.emit(target);
                     }
                 }

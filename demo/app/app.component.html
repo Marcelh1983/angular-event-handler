@@ -1,23 +1,25 @@
 <div class="container">
-  <h1>ngx-events-handler</h1>
+    <h1>ngx-events-handler</h1>
     <div id="example-exclusion" class="card p-3 m-2" (handleEvent)="deselect()"
         [exclusion]="['#buttons', '#text-control']">
         <h2>Exclusion: handle click outside elements</h2>
-                <div class="mb-2">
-         <code>(handleEvent)="deselect()"
+        <div class="mb-2">
+            <code>(handleEvent)="deselect()"
         [exclusion]="['#buttons', '#text-control']"</code>
         </div>
         <div id="buttons" class="d-flex">
-            <button [disabled]="!selectedWord" (click)="toggleClass(selectedWord, 'bold')"
-                class="btn mdi mdi-24px" [class.mdi-btn-primary]="boldApplied"
-                [class.mdi-btn-outline-primary]="!boldApplied"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M13.5,15.5H10V12.5H13.5A1.5,1.5 0 0,1 15,14A1.5,1.5 0 0,1 13.5,15.5M10,6.5H13A1.5,1.5 0 0,1 14.5,8A1.5,1.5 0 0,1 13,9.5H10M15.6,10.79C16.57,10.11 17.25,9 17.25,8C17.25,5.74 15.5,4 13.25,4H7V18H14.04C16.14,18 17.75,16.3 17.75,14.21C17.75,12.69 16.89,11.39 15.6,10.79Z" />
-</svg></button>
-            <button [disabled]="!selectedWord" (click)="toggleClass(selectedWord, 'underline')"
-                class="btn mdi mdi-24px" [class.mdi-btn-primary]="boldApplied"
-                [class.mdi-btn-outline-primary]="!boldApplied"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M5,21H19V19H5V21M12,17A6,6 0 0,0 18,11V3H15.5V11A3.5,3.5 0 0,1 12,14.5A3.5,3.5 0 0,1 8.5,11V3H6V11A6,6 0 0,0 12,17Z" />
-</svg></button>
+            <button [disabled]="!selectedWord" (click)="toggleClass(selectedWord, 'bold')" class="btn mdi mdi-24px"
+                [class.mdi-btn-primary]="boldApplied" [class.mdi-btn-outline-primary]="!boldApplied"><svg
+                    style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M13.5,15.5H10V12.5H13.5A1.5,1.5 0 0,1 15,14A1.5,1.5 0 0,1 13.5,15.5M10,6.5H13A1.5,1.5 0 0,1 14.5,8A1.5,1.5 0 0,1 13,9.5H10M15.6,10.79C16.57,10.11 17.25,9 17.25,8C17.25,5.74 15.5,4 13.25,4H7V18H14.04C16.14,18 17.75,16.3 17.75,14.21C17.75,12.69 16.89,11.39 15.6,10.79Z" />
+                </svg></button>
+            <button [disabled]="!selectedWord" (click)="toggleClass(selectedWord, 'underline')" class="btn mdi mdi-24px"
+                [class.mdi-btn-primary]="boldApplied" [class.mdi-btn-outline-primary]="!boldApplied"><svg
+                    style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M5,21H19V19H5V21M12,17A6,6 0 0,0 18,11V3H15.5V11A3.5,3.5 0 0,1 12,14.5A3.5,3.5 0 0,1 8.5,11V3H6V11A6,6 0 0,0 12,17Z" />
+                </svg></button>
         </div>
         <p id="text-control" style="cursor: pointer;user-select: none;" class="form-control h-100">
             <ng-container *ngFor="let word of words; trackBy:trackById">
@@ -31,15 +33,28 @@
         [inclusion]="['.span-word']">
         <h2>Inclusion: handle multiple click events at once</h2>
         <div class="mb-2">
-         <code>(handleEvent)="handleSpanClick $event)"
+            <code>(handleEvent)="handleSpanClick $event)"
         [inclusion]="['.span-word']"</code>
         </div>
         <p id="text-control" style="cursor: pointer;user-select: none;" class="form-control h-100">
-        <ng-container *ngFor="let word of inclusionWords; trackBy:trackById">
-            <span class="span-word">{{ word.text }}</span>
-            <span>&ngsp;</span>
-        </ng-container>
+            <ng-container *ngFor="let word of inclusionWords; trackBy:trackById">
+                <span class="span-word">{{ word.text }}</span>
+                <span>&ngsp;</span>
+            </ng-container>
         </p>
         <div>Selected text: {{ selectedText }}</div>
     </div>
+    <div id="example-inclusion" class="card p-3 m-2" (handleEvent)="handleSpanClick($event)"
+        [inclusion]="['.span-word']">
+        <h2>Handle innerHTML</h2>
+        <div class="mb-2">
+            <code>(handleEvent)="linkClicked($event)" [inclusion]="['a']"
+                [innerHTML]="html"</code>
+        </div>
+        <div (handleEvent)="linkClicked($event)" [inclusion]="['a']" [innerHTML]="html">
+        </div>
+        <div>clicked: {{linkClickedText}}</div>
+    </div>
+
+
 </div>
