@@ -21,6 +21,7 @@ export function createObservableHandler(renderer: Renderer2, target = 'window', 
 }
 
 @Directive({
+    // tslint:disable-next-line: directive-selector
     selector: '[handleEvent]'
 })
 export class EventHandlerDirective implements OnDestroy, OnChanges {
@@ -83,7 +84,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                 const path = this.getElementPath(e);
                 if (!this.keepInclusionListInsideDirective ||
                     !this.checkInclude ||
-                    !!path.find(e => e === this.el?.nativeElement)) {
+                    !!path.find(epath => epath === this.el?.nativeElement)) {
                     // if no included elements are provided, every element is included
                     // otherwise check if the element or one of the parents matches the inclusion list
                     let isIncluded = !this.checkInclude;

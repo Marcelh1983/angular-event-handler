@@ -1,65 +1,63 @@
 {
-    "name": "ngx-event-handler",
-    "version": "1.0.4",
-    "description": "Easy way to handle page clicks, outside or inside specific elements.",
-    "main": "./package/index.js",
-    "ngPackage": {
-        "dest": "package",
-        "lib": {
-            "entryFile": "modules/index.ts"
-        },
-        "whitelistedNonPeerDependencies": [
-            "."
-        ]
+  "name": "ngx-event-handler",
+  "version": "1.1.0",
+  "description": "Easy way to handle page clicks, outside or inside specific elements.",
+  "main": "./package/index.js",
+  "ngPackage": {
+    "dest": "package",
+    "lib": {
+      "entryFile": "modules/index.ts"
     },
-    "scripts": {
-        "build": "ng-packagr -p package.json",
-        "publish": "ng-packagr -p package.json && npm publish ./package --tag latest",
-        "publish-next": "ng-packagr -p package.json && npm publish ./package --tag next",
-        "start": "ng serve --port 4201"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Marcelh1983/angular-event-handler.git"
-    },
-    "keywords": [
-        "Angular",
-        "click outside",
-        "handle events",
-        "events",
-        "page clicks"
-    ],
-    "author": "Marcel Hoekstra",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Marcelh1983/angular-event-handler/issues"
-    },
-    "homepage": "https://github.com/Marcelh1983/angular-event-handler",
-    "devDependencies": {
-        "@angular-devkit/build-angular": "~0.901.8",
-        "@angular/animations": "~9.1.11",
-        "@angular/cli": "~9.1.8",
-        "@angular/common": "~9.1.11",
-        "@angular/compiler": "~9.1.11",
-        "@angular/compiler-cli": "~9.1.11",
-        "@angular/core": "~9.1.11",
-        "@angular/forms": "~9.1.11",
-        "@angular/language-service": "~9.1.11",
-        "@angular/platform-browser": "~9.1.11",
-        "@angular/platform-browser-dynamic": "~9.1.11",
-        "@angular/router": "~9.1.11",
-        "@types/node": "~13.9.1",
-        "codelyzer": "~5.2.2",
-        "bootstrap": "4.5.0",
-        "ng-packagr": "^9.1.5",
-        "rxjs": "^6.5.5",
-        "tslint": "^5.20.1",
-        "typescript": "3.7.5",
-        "zone.js": "^0.10.3"
-    },
-    "peerDependencies": {
-        "@angular/common": ">= 6.0.0",
-        "@angular/core": ">= 6.0.0",
-        "rxjs": ">= 6.3.0"
-    }
+    "whitelistedNonPeerDependencies": [
+      "."
+    ]
+  },
+  "scripts": {
+    "build": "ng-packagr -p package.json",
+    "publish": "ng-packagr -p package.json && npm publish ./package --tag latest",
+    "publish-next": "ng-packagr -p package.json && npm publish ./package --tag next",
+    "start": "ng serve --port 4201"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marcelh1983/angular-event-handler.git"
+  },
+  "keywords": [
+    "Angular",
+    "click outside",
+    "handle events",
+    "events",
+    "page clicks"
+  ],
+  "author": "Marcel Hoekstra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Marcelh1983/angular-event-handler/issues"
+  },
+  "homepage": "https://github.com/Marcelh1983/angular-event-handler",
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1000.0",
+    "@angular/animations": "~10.0.1",
+    "@angular/cli": "~10.0.0",
+    "@angular/common": "~10.0.1",
+    "@angular/compiler": "~10.0.1",
+    "@angular/compiler-cli": "~10.0.1",
+    "@angular/core": "~10.0.1",
+    "@angular/forms": "~10.0.1",
+    "@angular/language-service": "~10.0.1",
+    "@angular/platform-browser": "~10.0.1",
+    "@angular/platform-browser-dynamic": "~10.0.1",
+    "@angular/router": "~10.0.1",
+    "@types/node": "~14.0.14",
+    "codelyzer": "~5.2.2",
+    "bootstrap": "4.5.0",
+    "ng-packagr": "^10.0.0",
+    "rxjs": "^6.5.5",
+    "tslint": "~6.1.0",
+    "typescript": "3.9.5",
+    "zone.js": "^0.10.3"
+  },
+  "peerDependencies": {
+    "rxjs": ">= 6.3.0"
+  }
 }
