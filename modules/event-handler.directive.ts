@@ -82,6 +82,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
             this.subscriptionHandler = createObservableHandler(this.renderer, this.target, this.event, this.delay).subscribe((e) => {
                 // keep InclusionsListInside directive;
                 const path = this.getElementPath(e);
+                let target = (e as Event).target as HTMLElement;
                 if (!this.keepInclusionListInsideDirective ||
                     !this.checkInclude ||
                     !!path.find(epath => epath === this.el?.nativeElement)) {
@@ -95,6 +96,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                                 break;
                             }
                             if (this.matchesElement(elementToCheck, 'include')) {
+                                target = elementToCheck;
                                 isIncluded = true;
                                 break;
                             }
@@ -117,7 +119,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                         if (this.preventDefault) {
                             e.preventDefault();
                         }
-                        this.handleEvent.emit((e as Event).target as HTMLElement);
+                        this.handleEvent.emit(target);
                     }
                 }
             });

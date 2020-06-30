@@ -1,3 +1,9 @@
+#1.1.1 (6/30/2020)
+When a sub element of an included element is clicked, return the included (parent) element
+
+#1.1.0 (6/30/2020)
+Upgraded to Angular 10
+
 #1.0.0 (6/14/2020)
 Support for non web-kit based browsers
 
