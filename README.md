@@ -57,7 +57,8 @@ Input:
 
 
 Output:
-- handleEvent: EventEmitter<HTMLElement>: fires when an element that matches the provided inclusion/exclusion list. By default; if nothing not inputs are provided on the directive, every click will trigger this event.
+- handleEvent: EventEmitter<HTMLElement>: fires when an event (by default click) occurs on a element that matches the provided inclusion/exclusion list. By default; if nothing not inputs are provided on the directive, every click will trigger this event.
+- handleOutsideEvent: EventEmitter<HTMLElement>: fires when an event (by default click) occurs, but not on a element that matches the provided inclusion/exclusion list.
 
 
 The function used to create an observable on page events can always be used without the directive.

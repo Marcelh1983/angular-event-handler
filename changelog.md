@@ -1,3 +1,6 @@
+#1.1.4 (9/25/2020)
+added handleOutsideEvent. To be able to handle outside clicks when providing inclusion elements
+
 #1.1.1 (6/30/2020)
 When a sub element of an included element is clicked, return the included (parent) element
 
