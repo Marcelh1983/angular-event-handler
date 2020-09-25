@@ -54,6 +54,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
     @Input() target = 'window';
     @Input() event = 'click';
     @Output() handleEvent = new EventEmitter<HTMLElement>();
+    @Output() handleOutsideEvent = new EventEmitter<HTMLElement>();
 
     private excludedClasses = [];
     private excludedIds = [];
@@ -112,6 +113,8 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                     }
                     if (isIncluded && !isExcluded) {
                         this.handleEvent.emit(target);
+                    } else {
+                        this.handleOutsideEvent.emit(target);
                     }
                 }
             });
