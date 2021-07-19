@@ -56,14 +56,14 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
     @Output() handleEvent = new EventEmitter<HTMLElement>();
     @Output() handleOutsideEvent = new EventEmitter<HTMLElement>();
 
-    private excludedClasses = [];
+    private excludedClasses: string[] = [];
     private excludedIds = [];
     private excludedElements = [];
     private includedClasses = [];
     private includedIds = [];
     private includedElements = [];
     private checkInclude = false;
-    private subscriptionHandler: Subscription;
+    private subscriptionHandler: Subscription
     private attachedEvent = false;
 
     constructor(private renderer: Renderer2, private el: ElementRef) { }
@@ -146,7 +146,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
         const ids = check === 'exclude' ? this.excludedIds : this.includedIds;
         const classes = check === 'exclude' ? this.excludedClasses : this.includedClasses;
 
-        if (elements?.includes(element.tagName?.toLowerCase())) {
+        if (element && elements?.includes(element.tagName?.toLowerCase())) {
             return true;
         }
         for (const className of classes) {
@@ -159,6 +159,7 @@ export class EventHandlerDirective implements OnDestroy, OnChanges {
                 return true;
             }
         }
+        return false;
     }
 
     ngOnDestroy() {

@@ -1,68 +1,27 @@
+# Test2
 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.2.
 
-# ngx-event-handler
+## Development server
 
-This directive can be used to handle events, by default click events, that matches given critera.
-For example: handle or span click, handle all clicks where element has class '.custom-button',
-handle all clicks where id is not 'toolbar' and also class is not .selection.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-The matching occurs by checking the target element and it's parents.
-This makes it easy to define: don't trigger my 'clickoutside' event when clicking the div with id: 'toolbar' and also don't trigger when any of the child elements of the toolbar is clicked.
+## Code scaffolding
 
-See the demo project for examples:
-- click outside
-- bind multiple event at once
-- bind events to html injected in the innerHTML 
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-<a href="https://stackblitz.com/edit/ngx-event-handler">Stackblitz</a>
+## Build
 
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-<a href="https://github.com/Marcelh1983/angular-event-handler/blob/master/changelog.md">Changes</a>
+## Running unit tests
 
-### Install the NPM Module
-```sh
-npm install ngx-event-handler --save
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-### Usage
+## Running end-to-end tests
 
-#### 1. Import `NgxEventHandlerModule` 
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-```ts
-@NgModule({
-    imports: [NgxEventHandlerModule]
-  })
-  export class AppModule { }
-```
+## Further help
 
-#### 2. Add handleEvent to a htmlElement:
-
-```html
-    <div (handleEvent)="deselect()" [exclusion]="['#buttons', '#text-control']">
-``` 
-
-#### API:
-
-Input: 
-
-
-
-- exclusion: Array<string> with classes, ids or element names. An event where the target matches one of these elements or it's children won't trigger handleEvent. Example: ['#toolbar, 'button', '.selected']. Default: []
-- inclusion: Array<string> with classes, ids or element names. By default all elements, except the ones excluded are included. When providing a list of inclusion elements, it will only trigger Handle event if the target matches the inclusion array (or children) and doesn't match an element in the exclusion array.
-- target = 'window': the target where it listens to events.
-- event = 'click': the event listened to.
-- keepInclusionListInsideDirective = true; when providing inclusion items, if true; these will only be matched with the directive. if false, it matches all elements on the page
-- maxLevelup = 20; level of parents that are checked to match a inclusion or exclusion.
-- delay = 0; delay before handleEvent is trigged;
-
-
-Output:
-- handleEvent: EventEmitter<HTMLElement>: fires when an event (by default click) occurs on a element that matches the provided inclusion/exclusion list. By default; if nothing not inputs are provided on the directive, every click will trigger this event.
-- handleOutsideEvent: EventEmitter<HTMLElement>: fires when an event (by default click) occurs, but not on a element that matches the provided inclusion/exclusion list.
-
-
-The function used to create an observable on page events can always be used without the directive.
-
-```js
-    createObservableHandler(renderer: Renderer2, target = 'window', event = 'click', delayMs = 0)
-```
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
