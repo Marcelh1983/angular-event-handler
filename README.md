@@ -43,9 +43,9 @@ npm install ngx-event-handler --save
 
 #### API:
 
+##### handleEvent:
+
 Input: 
-
-
 
 - exclusion: Array<string> with classes, ids or element names. An event where the target matches one of these elements or it's children won't trigger handleEvent. Example: ['#toolbar, 'button', '.selected']. Default: []
 - inclusion: Array<string> with classes, ids or element names. By default all elements, except the ones excluded are included. When providing a list of inclusion elements, it will only trigger Handle event if the target matches the inclusion array (or children) and doesn't match an element in the exclusion array.
@@ -60,6 +60,15 @@ Output:
 - handleEvent: EventEmitter<HTMLElement>: fires when an event (by default click) occurs on a element that matches the provided inclusion/exclusion list. By default; if nothing not inputs are provided on the directive, every click will trigger this event.
 - handleOutsideEvent: EventEmitter<HTMLElement>: fires when an event (by default click) occurs, but not on a element that matches the provided inclusion/exclusion list.
 
+##### outsideEvent:
+
+Input: 
+
+See handleEvent except include list. Set the directive and event on an element for which you want to have the clickout side. With [excluded] you can add elements that should not trigger the outside click.
+
+Output:
+
+- outsideEvent: EventEmitter<HTMLElement> 
 
 The function used to create an observable on page events can always be used without the directive.
 

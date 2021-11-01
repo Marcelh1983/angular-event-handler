@@ -1,60 +1,314 @@
 <div class="container">
-    <h1>ngx-events-handler</h1>
-    <div id="example-exclusion" class="card p-3 m-2" (handleEvent)="deselect()"
-        [exclusion]="['#buttons', '#text-control']">
-        <h2>Exclusion: handle click outside elements</h2>
-        <div class="mb-2">
-            <code>(handleEvent)="deselect()"
-        [exclusion]="['#buttons', '#text-control']"</code>
-        </div>
-        <div id="buttons" class="d-flex">
-            <button [disabled]="!selectedWord" (click)="toggleClass(selectedWord, 'bold')" class="btn mdi mdi-24px"
-                [class.mdi-btn-primary]="boldApplied" [class.mdi-btn-outline-primary]="!boldApplied"><svg
-                    style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M13.5,15.5H10V12.5H13.5A1.5,1.5 0 0,1 15,14A1.5,1.5 0 0,1 13.5,15.5M10,6.5H13A1.5,1.5 0 0,1 14.5,8A1.5,1.5 0 0,1 13,9.5H10M15.6,10.79C16.57,10.11 17.25,9 17.25,8C17.25,5.74 15.5,4 13.25,4H7V18H14.04C16.14,18 17.75,16.3 17.75,14.21C17.75,12.69 16.89,11.39 15.6,10.79Z" />
-                </svg></button>
-            <button [disabled]="!selectedWord" (click)="toggleClass(selectedWord, 'underline')" class="btn mdi mdi-24px"
-                [class.mdi-btn-primary]="boldApplied" [class.mdi-btn-outline-primary]="!boldApplied"><svg
-                    style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M5,21H19V19H5V21M12,17A6,6 0 0,0 18,11V3H15.5V11A3.5,3.5 0 0,1 12,14.5A3.5,3.5 0 0,1 8.5,11V3H6V11A6,6 0 0,0 12,17Z" />
-                </svg></button>
-        </div>
-        <p id="text-control" style="cursor: pointer;user-select: none;" class="form-control h-100">
-            <ng-container *ngFor="let word of words; trackBy:trackById">
-                <span class="span-word" (click)="selectWord(word)" [ngClass]="word.classes"
-                    [class.selected]="word.selected">{{ word.text }}</span>
-                <span>&ngsp;</span>
-            </ng-container>
-        </p>
+  <h1>ngx-events-handler</h1>
+  <div
+    id="example-exclusion"
+    class="card p-3 m-2"
+    (handleEvent)="deselect()"
+    [exclusion]="['#buttons', '#text-control']"
+  >
+    <h2>Exclusion: handle click outside elements</h2>
+    <div class="mb-2">
+      <code>
+        (handleEvent)="deselect()" [exclusion]="['#buttons',
+        '#text-control']"</code
+      >
     </div>
-    <div id="example-inclusion" class="card p-3 m-2" (handleEvent)="handleSpanClick($event)"
-        [inclusion]="['.span-word']">
-        <h2>Inclusion: handle multiple click events at once</h2>
-        <div class="mb-2">
-            <code>(handleEvent)="handleSpanClick $event)"
-        [inclusion]="['.span-word']"</code>
-        </div>
-        <p id="text-control" style="cursor: pointer;user-select: none;" class="form-control h-100">
-            <ng-container *ngFor="let word of inclusionWords; trackBy:trackById">
-                <span class="span-word">{{ word.text }}</span>
-                <span>&ngsp;</span>
-            </ng-container>
-        </p>
-        <div>Selected text: {{ selectedText }}</div>
+    <div id="buttons" class="d-flex">
+      <button
+        [disabled]="!selectedWord"
+        (click)="toggleClass(selectedWord, 'bold')"
+        class="btn mdi mdi-24px"
+        [class.mdi-btn-primary]="boldApplied"
+        [class.mdi-btn-outline-primary]="!boldApplied"
+      >
+        <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M13.5,15.5H10V12.5H13.5A1.5,1.5 0 0,1 15,14A1.5,1.5 0 0,1 13.5,15.5M10,6.5H13A1.5,1.5 0 0,1 14.5,8A1.5,1.5 0 0,1 13,9.5H10M15.6,10.79C16.57,10.11 17.25,9 17.25,8C17.25,5.74 15.5,4 13.25,4H7V18H14.04C16.14,18 17.75,16.3 17.75,14.21C17.75,12.69 16.89,11.39 15.6,10.79Z"
+          />
+        </svg>
+      </button>
+      <button
+        [disabled]="!selectedWord"
+        (click)="toggleClass(selectedWord, 'underline')"
+        class="btn mdi mdi-24px"
+        [class.mdi-btn-primary]="boldApplied"
+        [class.mdi-btn-outline-primary]="!boldApplied"
+      >
+        <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M5,21H19V19H5V21M12,17A6,6 0 0,0 18,11V3H15.5V11A3.5,3.5 0 0,1 12,14.5A3.5,3.5 0 0,1 8.5,11V3H6V11A6,6 0 0,0 12,17Z"
+          />
+        </svg>
+      </button>
     </div>
-    <div id="example-inclusion" class="card p-3 m-2" (handleEvent)="handleSpanClick($event)"
-        [inclusion]="['.span-word']">
-        <h2>Handle innerHTML</h2>
-        <div class="mb-2">
-            <code>(handleEvent)="linkClicked($event)" [inclusion]="['a']"
-                [innerHTML]="html"</code>
-        </div>
-        <div (handleEvent)="linkClicked($event)" [inclusion]="['a']" [innerHTML]="html">
-        </div>
-        <div>clicked: {{linkClickedText}}</div>
+    <p
+      id="text-control"
+      style="cursor: pointer; user-select: none"
+      class="form-control h-100"
+    >
+      <ng-container *ngFor="let word of words; trackBy: trackById">
+        <span
+          class="span-word"
+          (click)="selectWord(word)"
+          [ngClass]="word.classes"
+          [class.selected]="word.selected"
+          >{{ word.text }}</span
+        >
+        <span>&ngsp;</span>
+      </ng-container>
+    </p>
+  </div>
+  <div
+    id="example-inclusion"
+    class="card p-3 m-2"
+    (handleEvent)="handleSpanClick($event)"
+    [inclusion]="['.span-word']"
+  >
+    <h2>Inclusion: handle multiple click events at once</h2>
+    <div class="mb-2">
+      <code
+        >(handleEvent)="handleSpanClick $event)"
+        [inclusion]="['.span-word']"</code
+      >
     </div>
+    <p
+      id="text-control"
+      style="cursor: pointer; user-select: none"
+      class="form-control h-100"
+    >
+      <ng-container *ngFor="let word of inclusionWords; trackBy: trackById">
+        <span class="span-word" [class.selected]="word.selected">{{
+          word.text
+        }}</span>
+        <span>&ngsp;</span>
+      </ng-container>
+    </p>
+    <div>Selected text: {{ selectedText }}</div>
+  </div>
+  <div
+    id="example-inclusion"
+    class="card p-3 m-2"
+    (handleEvent)="handleSpanClick($event)"
+    [inclusion]="['.span-word']"
+  >
+    <h2>Handle innerHTML</h2>
+    <div class="mb-2">
+      <code
+        >(handleEvent)="linkClicked($event)" [inclusion]="['a']"
+        [innerHTML]="html"</code
+      >
+    </div>
+    <div
+      (handleEvent)="linkClicked($event)"
+      [inclusion]="['a']"
+      [innerHTML]="html"
+    ></div>
+    <div>clicked: {{ linkClickedText }}</div>
+  </div>
+  <div id="example-clickoutside" class="card p-3 m-2">
+    <h2>Handle click-outside</h2>
+    <div class="mb-2">
+      <code
+        >[exclusion]="['#openButton']" (handleOutsideEvent)="open = false"
+        handleEvent</code
+      >
+    </div>
+    <button id="openButton" (click)="open = true" class="btn btn-primary">
+      Open
+    </button>
+    <div
+      target="window"
+      style="height: 100px; width: 100px"
+      outsideEvent
+      [exclusion]="['#openButton']"
+      (outsideEvent)="open = false"
+      [class.open]="open"
+      [class.close]="!open"
+    >
+      Opened! Close me with a click outside.
+    </div>
+  </div>
 
+  <div
+    id="example-inclusion-exclusion"
+    (handleOutsideEvent)="deselectElements()"
+    (handleEvent)="selectElement($event)"
+    [inclusion]="['g']"
+    class="card p-3 m-2"
+  >
+    <h2>Handle clicks and outside clicks</h2>
+    <div
+      class="mb-2"
 
+    >
+      <code
+        >(handleOutsideEvent)="deselectElements()"
+        (handleEvent)="selectElement($event)" [inclusion]="['g']"
+      </code>
+    </div>
+    <svg id="mind-map-svg" width="680" height="500" class="area">
+      <defs>
+        <style>
+          .draggable {
+            stroke-dasharray: 4px;
+          }
+          .b {
+            fill: #f25844;
+          }
+          .c,
+          .e {
+            font-size: 16px;
+          }
+          .c {
+            font-family: Arial-BoldMT, Arial;
+            font-weight: 700;
+          }
+          .d {
+            fill: #f9c908 !important;
+          }
+          .e {
+            font-family: ArialMT, Arial;
+          }
+          .g,
+          .a {
+            fill: #fff;
+            stroke: #cbcbcb;
+            stroke-width: 2px;
+          }
+          rect,
+          ellipse,
+          text {
+            cursor: pointer;
+          }
+          .a {
+            fill: #b7e1f3 !important;
+          }
+        </style>
+      </defs>
+      <line x1="264" y1="236" x2="264" y2="96" class="a" />
+      <line x1="264" y1="336" x2="264" y2="216" class="a" />
+      <line x1="300" y1="300" x2="264" y2="216" class="a" />
+      <line x1="164" y1="416" x2="264" y2="336" class="a" />
+      <line x1="272" y1="416" x2="264" y2="336" class="a" />
+      <line x1="184" y1="36" x2="264" y2="96" class="a" />
+      <line x1="139" y1="150" x2="264" y2="216" class="a" />
+      <line x1="312" y1="35" x2="264" y2="96" class="a" />
+      <line x1="100" y1="95" x2="264" y2="96" class="a" />
+      <g
+        width="128"
+        height="32"
+        style="transform: translateX(200px) translateY(80px)"
+      >
+        <rect width="128" height="32" class="d" />
+        <text dominant-baseline="middle" text-anchor="middle" class="e">
+          <tspan x="64" y="16">Example 4</tspan>
+        </text>
+      </g>
+      <g
+        width="128"
+        height="64"
+        style="transform: translateX(200px) translateY(200px)"
+      >
+        <ellipse
+          _ngcontent-ylg-c143=""
+          cx="64"
+          cy="16"
+          rx="64"
+          ry="32"
+          class="b"
+        />
+        <text
+          _ngcontent-ylg-c143=""
+          dominant-baseline="middle"
+          text-anchor="middle"
+          class="c"
+        >
+          <tspan _ngcontent-ylg-c143="" x="64" y="16">Example 5</tspan>
+        </text>
+      </g>
+      <g
+        width="128"
+        height="32"
+        style="transform: translateX(200px) translateY(320px)"
+      >
+        <rect width="128" height="32" class="d" />
+        <text dominant-baseline="middle" text-anchor="middle" class="e">
+          <tspan _ngcontent-ylg-c143="" x="64" y="16">Example 6</tspan>
+        </text>
+      </g>
+      <g
+        width="128"
+        height="32"
+        style="transform: translateX(260px) translateY(280px)"
+      >
+        <rect width="128" height="32" class="d" />
+        <text dominant-baseline="middle" text-anchor="middle" class="e">
+          <tspan x="64" y="16">Cultuur</tspan>
+        </text>
+      </g>
+      <g
+        id="klimaat"
+        width="100"
+        height="32"
+        style="transform: translateX(75px) translateY(150px)"
+      >
+        <rect width="128" height="32" class="d" />
+        <text dominant-baseline="middle" text-anchor="middle" class="e">
+          <tspan x="64" y="16">Example 8</tspan>
+        </text>
+      </g>
+      <g style="transform: translate(264px, 20px)">
+        <rect width="120" height="32" class="a" />
+        <text dominant-baseline="middle" text-anchor="middle" class="whitebg">
+          <tspan x="60" y="16">Example 15</tspan>
+        </text>
+      </g>
+      <g style="transform: translate(100px, 80px)">
+        <rect width="75" height="32" class="a" />
+        <text dominant-baseline="middle" text-anchor="middle" class="whitebg">
+          <tspan x="38" y="16">Example 14</tspan>
+        </text>
+      </g>
+      <g id="fixed-handige-reistips" style="transform: translate(100px, 400px)">
+        <rect width="128" height="32" class="a" />
+        <text dominant-baseline="middle" text-anchor="middle" class="whitebg">
+          <tspan x="64" y="16">Example 13</tspan>
+        </text>
+      </g>
+      <g style="transform: translate(240px, 400px)">
+        <rect width="64" height="32" class="a" />
+        <text dominant-baseline="middle" text-anchor="middle" class="whitebg">
+          <tspan x="32" y="16">Example 12</tspan>
+        </text>
+      </g>
+      <g style="transform: translate(120px, 20px)">
+        <rect width="128" height="32" class="a" />
+        <text dominant-baseline="middle" text-anchor="middle" class="whitebg">
+          <tspan x="64" y="16">Example 11</tspan>
+        </text>
+      </g>
+      <g style="transform: translate3d(420px, 0px, 0px)">
+        <rect class="g" width="64" height="32" />
+        <text dominant-baseline="middle" text-anchor="middle" class="e">
+          <tspan y="16" x="32">Example 10</tspan>
+        </text>
+      </g>
+      <!--container-->
+      <g style="transform: translate3d(420px, 45px, 0px)">
+        <rect class="g" width="52" height="32" />
+        <text dominant-baseline="middle" text-anchor="middle" class="e">
+          <tspan y="16" x="26">Example 2</tspan>
+        </text>
+      </g>
+      <!--container-->
+      <g style="transform: translate3d(420px, 90px, 0px)">
+        <rect class="g" width="52" height="32" />
+        <text dominant-baseline="middle" text-anchor="middle" class="e">
+          <tspan y="16" x="26">Example 1</tspan>
+        </text>
+      </g>
+    </svg>
+  </div>
 </div>

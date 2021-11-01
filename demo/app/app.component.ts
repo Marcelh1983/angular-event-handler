@@ -11,44 +11,58 @@ export class Word {
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styles: [`
-  .selected {
-    background-color: lightpink;
-}
+  styles: [
+    `
+      .open {
+        border: 2px solid black;
+      }
+      .close {
+        display: none;
+      }
+      .selected {
+        background-color: lightpink;
+      }
 
-.underline {
-    text-decoration: underline;
-}
+      .underline {
+        text-decoration: underline;
+      }
 
-.bold {
-    font-weight: bold;
-}
-`]
+      .bold {
+        font-weight: bold;
+      }
+    `,
+  ],
 })
 export class AppComponent {
+  open = false;
   linkClickedText = '';
   html: SafeHtml;
   boldApplied = false;
   underlineApplied = false;
   selectedWord: Word = null;
   selectedText = '';
-  words: Word[] = 'Click a word to select a word. You can set a style by clicking a button. Clicking outside the text or button will cancel the selection'.split(' ')
-    .map((word, index) => ({
-      id: index,
-      text: word,
-      selected: false,
-      classes: ''
-    }));
+  words: Word[] =
+    'Click a word to select a word. You can set a style by clicking a button. Clicking outside the text or button will cancel the selection'
+      .split(' ')
+      .map((word, index) => ({
+        id: index,
+        text: word,
+        selected: false,
+        classes: '',
+      }));
   inclusionWords: Word[] = `Again, click a word to select.
   But instead of add the click event on the span, add a click event for all .span-word elements.
-  Clicking the words above don't trigger the handle event because inclusions are by default within the directive only.`.split(' ')
+  Clicking the words above don't trigger the handle event because inclusions are by default within the directive only.`
+    .split(' ')
     .map((word, index) => ({
       id: index,
       text: word,
       selected: false,
-      classes: ''
+      classes: '',
     }));
-
+  notclicked() {
+    console.log('not clicked');
+  }
   constructor(sanitizer: DomSanitizer) {
     this.html = sanitizer.bypassSecurityTrustHtml(
       `<div>
@@ -58,8 +72,8 @@ export class AppComponent {
           <a href="/link1">Link 1</a>
           and
           <a href="/link2">Link 2</a>
-      </div>`
-        .replace(/href=/gi, ` onclick='return false;' href=`));
+      </div>`.replace(/href=/gi, ` onclick='return false;' href=`)
+    );
   }
   trackById(index: number, word: Word) {
     return word.id;
@@ -69,7 +83,7 @@ export class AppComponent {
   }
 
   selectWord(word: Word) {
-    this.words = this.words.map(w => {
+    this.words = this.words.map((w) => {
       if (w.selected && w.id !== word.id) {
         return { ...w, selected: false };
       } else if (w.id === word.id) {
@@ -80,22 +94,25 @@ export class AppComponent {
     });
     this.boldApplied = word.classes.includes('bold');
     this.underlineApplied = word.classes.includes('underline');
-    this.selectedWord = this.words.find(w => w.selected);
+    this.selectedWord = this.words.find((w) => w.selected);
   }
 
   deselect() {
-    this.words = this.words.map(w => {
+    this.words = this.words.map((w) => {
       return w.selected ? { ...w, selected: false } : w;
     });
     this.selectedWord = null;
   }
 
   toggleClass(word: Word, classname: string) {
-    this.words = this.words.map(w => {
+    this.words = this.words.map((w) => {
       if (w.id === word.id) {
         const classes = w.classes.split(' ');
         if (classes.includes(classname)) {
-          return { ...w, classes: classes.filter(bw => bw !== classname).join(' ') };
+          return {
+            ...w,
+            classes: classes.filter((bw) => bw !== classname).join(' '),
+          };
         } else {
           return { ...w, classes: [...classes, classname].join(' ') };
         }
@@ -109,5 +126,26 @@ export class AppComponent {
     const relativeUrl = anchor.href.replace(window.location.origin, '');
     console.log('nav to: ', relativeUrl);
     this.linkClickedText = `clicked: ${relativeUrl}, so we could use:  this.router.navigate([relativeUrl])`;
+  }
+
+  selectedElement  ='';
+  deselectElements() {
+      document.querySelectorAll('#mind-map-svg').forEach((svgInfo) => {
+        svgInfo.querySelectorAll('g').forEach(g => {
+          const rect = g.childNodes[0] as SVGElement;
+          rect.style.stroke = '#cbcbcb';
+          rect.style.strokeWidth = '2px';
+        })
+
+      });
+      this.selectedElement = null;
+  }
+  selectElement(event: Element) {
+    const rect = event.childNodes[0] as SVGElement;
+    this.deselectElements();
+    rect.style.stroke = 'red';
+    rect.style.strokeWidth = '3px';
+    this.selectedElement = event.id;
+    // }
   }
 }

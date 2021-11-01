@@ -1,3 +1,13 @@
+#1.3.0 (11/1/2021)
+fixed outside inside combined clicks by splitting 
+outsideEvent directive and handleEvent
+
+#1.2.1 (10/31/2021)
+fixed click outside combined with 'inside' click
+
+#1.2.0 (10/30/2021)
+fixed click outside + example
+
 #1.1.4 (9/25/2020)
 added handleOutsideEvent. To be able to handle outside clicks when providing inclusion elements
 
