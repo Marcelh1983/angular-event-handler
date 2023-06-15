@@ -1,21 +1,12 @@
 {
   "name": "ngx-event-handler",
-  "version": "16.0.0",
+  "version": "16.0.1",
   "description": "Easy way to handle page clicks, outside or inside specific elements.",
   "main": "./package/index.js",
-  "ngPackage": {
-    "dest": "package",
-    "lib": {
-      "entryFile": "modules/index.ts"
-    },
-    "whitelistedNonPeerDependencies": [
-      "."
-    ]
-  },
   "scripts": {
-    "build": "ng-packagr -p package.json",
-    "publish": "ng-packagr -p package.json && npm publish ./package --tag latest",
-    "publish-next": "ng-packagr -p package.json && npm publish ./package --tag next",
+    "build": "ng-packagr -p ng-package.json",
+    "publish": "ng-packagr -p ng-package.json && npm publish ./package --tag latest",
+    "publish-next": "ng-packagr -p ng-package.json && npm publish ./package --tag next",
     "start": "ng serve --port 4202"
   },
   "repository": {
@@ -55,5 +46,9 @@
     "typescript": "~4.9.5",
     "zone.js": "~0.13.1"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@angular/core": ">= 16.0.0",
+    "@angular/platform-browser": ">= 16.0.0",
+    "@angular/common": ">= 16.0.0"
+  }
 }
