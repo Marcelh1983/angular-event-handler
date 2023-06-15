@@ -5,7 +5,6 @@ import {
 import { Subscription, fromEventPattern } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-// inspired by https://stackoverflow.com/a/60296925
 export function createObservableHandler(renderer: Renderer2, target = 'window', event = 'click', delayMs = 0) {
   let removeClickEventListener: () => void;
   const createClickEventListener = (
