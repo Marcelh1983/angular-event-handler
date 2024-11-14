@@ -24,18 +24,11 @@
               "base": "dist/demo"
             },
             "index": "demo/index.html",
-            "polyfills": [
-              "demo/polyfills.ts"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "demo/favicon.ico",
-              "demo/assets"
-            ],
-            "styles": [
-              "demo/styles.scss"
-            ],
+            "assets": ["demo/favicon.ico", "demo/assets"],
+            "styles": ["demo/styles.scss"],
             "scripts": [],
             "browser": "demo/main.ts"
           },
@@ -92,17 +85,12 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "demo/test.ts",
-            "polyfills": "demo/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "demo/favicon.ico",
-              "demo/assets"
-            ],
-            "styles": [
-              "demo/styles.scss"
-            ],
+            "assets": ["demo/favicon.ico", "demo/assets"],
+            "styles": ["demo/styles.scss"],
             "scripts": []
           }
         }

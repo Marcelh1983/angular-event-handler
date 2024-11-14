@@ -29,17 +29,16 @@ export function createObservableHandler(
 }
 
 @Directive({
-  // tslint:disable-next-line: directive-selector
   selector: '[outsideEvent]',
 })
 export class OutsideHandlerDirective implements OnDestroy, OnChanges {
   @Input() set exclusion(value: string[]) {
     this.excludedClasses = value
       .filter((e) => e.startsWith('.'))
-      .map((e) => e.substring(1, e.length));
+      .map((e) => e.substring(1));
     this.excludedIds = value
       .filter((e) => e.startsWith('#'))
-      .map((e) => e.substring(1, e.length));
+      .map((e) => e.substring(1));
     this.excludedElements = value
       .filter((e) => !e.startsWith('#') && !e.startsWith('.'))
       .map((e) => e.toLowerCase());
@@ -51,75 +50,65 @@ export class OutsideHandlerDirective implements OnDestroy, OnChanges {
   @Input() event = 'click';
   @Output() outsideEvent = new EventEmitter<HTMLElement>();
 
-  private excludedClasses = [];
-  private excludedIds = [];
-  private excludedElements = [];
-  private subscriptionHandler: Subscription;
+  private excludedClasses: string[] = [];
+  private excludedIds: string[] = [];
+  private excludedElements: string[] = [];
+  private subscriptionHandler?: Subscription;
   private attachedEvent = false;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      !this.attachedEvent ||
-      (changes.maxLevelup &&
-        changes.maxLevelup.previousValue !== changes.maxLevelup.currentValue) ||
-      (changes.target &&
-        changes.target.previousValue !== changes.target.currentValue) ||
-      (changes.event &&
-        changes.event.previousValue !== changes.event.currentValue) ||
-      (changes.delay &&
-        changes.delay.previousValue !== changes.delay.currentValue)
-    ) {
-      if (this.subscriptionHandler) {
-        this.subscriptionHandler.unsubscribe();
-      }
-      this.subscriptionHandler = createObservableHandler(
-        this.renderer,
-        this.target,
-        this.event,
-        this.delay
-      ).subscribe((e) => {
-        const path = this.getElementPath(e);
-        let target = (e as Event).target as HTMLElement;
-        const outsideHandleOutside = this.outsideEvent?.observers.length > 0;
-        // if no included elements are provided, every element is included
-        // otherwise check if the element or one of the parents matches the inclusion list
-        let isIncluded = false;
-        let isExcluded = false;
+    if (!this.attachedEvent || this.shouldReattachEvent(changes)) {
+      this.subscribeToEvent();
+    }
+  }
 
-        for (const [index, elementToCheck] of path.entries()) {
-          if (index > this.maxLevelup) {
-            break;
-          }
-          if (this.matchesElement(elementToCheck, 'include')) {
-            target = elementToCheck;
-            isIncluded = true;
-            break;
-          }
-        }
-        if (isIncluded) {
-          // if the target is in the inclusionlist, of there is no inclusion list, check if the target
-          // or the target parent matches a exclusion.
-          for (const [index, elementToCheck] of path.entries()) {
-            if (index > this.maxLevelup) {
-              break;
-            }
-            if (
-              this.matchesElement(elementToCheck, 'exclude') ||
-              (outsideHandleOutside &&
-                path.find((epath) => epath === this.el?.nativeElement))
-            ) {
-              isExcluded = true;
-              break;
-            }
-          }
-        }
-        if (outsideHandleOutside && !isExcluded) {
-          this.outsideEvent?.emit(target);
-        }
-      });
-      this.attachedEvent = true;
+  ngOnDestroy(): void {
+    this.subscriptionHandler?.unsubscribe();
+  }
+
+  private shouldReattachEvent(changes: SimpleChanges): boolean {
+    return ['maxLevelup', 'target', 'event', 'delay'].some(
+      (key) =>
+        changes[key] && changes[key].previousValue !== changes[key].currentValue
+    );
+  }
+
+  private subscribeToEvent(): void {
+    this.subscriptionHandler?.unsubscribe();
+    this.subscriptionHandler = createObservableHandler(
+      this.renderer,
+      this.target,
+      this.event,
+      this.delay
+    ).subscribe((e) => this.handleOutsideEventCheck(e as Event));
+    this.attachedEvent = true;
+  }
+
+  private handleOutsideEventCheck(event: Event): void {
+    const path = this.getElementPath(event);
+    let target = event.target as HTMLElement;
+    const isOutsideHandlerActive = this.outsideEvent?.observers.length > 0;
+    let isIncluded = false;
+    let isExcluded = false;
+
+    isIncluded = path.some(
+      (element, index) =>
+        index <= this.maxLevelup && this.matchesElement(element, 'include')
+    );
+
+    if (isIncluded) {
+      isExcluded = path.some(
+        (element, index) =>
+          index <= this.maxLevelup &&
+          (this.matchesElement(element, 'exclude') ||
+            (isOutsideHandlerActive && path.includes(this.el.nativeElement)))
+      );
+    }
+
+    if (isOutsideHandlerActive && !isExcluded) {
+      this.outsideEvent.emit(target);
     }
   }
 
@@ -140,30 +129,18 @@ export class OutsideHandlerDirective implements OnDestroy, OnChanges {
     }
   }
 
-  private matchesElement(element: HTMLElement, check: 'include' | 'exclude') {
+  private matchesElement(
+    element: HTMLElement,
+    check: 'include' | 'exclude'
+  ): boolean {
     const elements = this.excludedElements;
     const ids = this.excludedIds;
     const classes = this.excludedClasses;
 
-    if (element && elements?.includes(element.tagName?.toLowerCase())) {
-      return true;
-    }
-    for (const className of classes) {
-      if (element.classList?.contains(className)) {
-        return true;
-      }
-    }
-    for (const id of ids) {
-      if (element.id === id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  ngOnDestroy() {
-    if (this.subscriptionHandler) {
-      this.subscriptionHandler.unsubscribe();
-    }
+    return (
+      elements.includes(element.tagName?.toLowerCase()) ||
+      classes.some((className) => element.classList?.contains(className)) ||
+      ids.includes(element.id)
+    );
   }
 }
