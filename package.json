@@ -1,6 +1,6 @@
 {
   "name": "ngx-event-handler",
-  "version": "16.0.1",
+  "version": "18.0.0",
   "description": "Easy way to handle page clicks, outside or inside specific elements.",
   "main": "./package/index.js",
   "scripts": {
